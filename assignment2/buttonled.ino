@@ -2,6 +2,7 @@
 #define LED 5
 bool buttonstate;
 bool beenPressed = false;
+bool ledOn = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -22,8 +23,15 @@ void loop() {
     // set pressed flag
     beenPressed = true;
 
-    // turn on LED
-    digitalWrite(LED, HIGH);
+    // toggle LED
+    if (ledOn){
+      digitalWrite(LED, LOW);
+      ledOn = false;
+    } 
+    else{
+      digitalWrite(LED, HIGH);
+      ledOn = true;
+    }
   }
 
   // if button just released
@@ -31,8 +39,5 @@ void loop() {
 
     // set pressed flag
     beenPressed = false;
-
-    // turn off LED
-    digitalWrite(LED, LOW);
   }
 }

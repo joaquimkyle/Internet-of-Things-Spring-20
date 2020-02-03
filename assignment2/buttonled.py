@@ -10,18 +10,32 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(23, GPIO.OUT)
 
-#flag
+#flags
 beenPressed = False
+ledOn = False
 
 #loop endlessly
 while True:
 
+    #get button state
     buttonstate = GPIO.input(21)
     
+    #if button just pressed down
     if (buttonstate and not beenPressed):
-        beenPressed = True
-        GPIO.output(23, GPIO.HIGH)
         
+        #set pressed flag
+        beenPressed = True
+        
+        #toggle LED
+        if (ledOn):
+            GPIO.output(23, GPIO.LOW)
+            ledOn = False
+        else:
+            GPIO.output(23, GPIO.HIGH)
+            ledOn = True
+        
+    #if button just released    
     if (not buttonstate and beenPressed):
+        
+        #set pressed flag
         beenPressed = False
-        GPIO.output(23, GPIO.LOW)
